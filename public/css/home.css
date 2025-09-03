@@ -1,0 +1,636 @@
+:root{
+  --bg1:#0a0c10;
+  --bg2:#121829;
+  --bg3:#1b1640;
+  --grad1:#0b1220;
+  --grad2:#15182c;
+  --grad3:#0b0911;
+  --grad4:#2c2b65;
+  --purple:#6b4aba;
+  --blue:#3f6087;
+  --cyan:#59b6c2;
+  --text:#bcc0c7;
+  --muted:#b7bdd0;
+  --glass:rgba(198, 185, 185, 0.08);
+  --shadow:0 10px 40px rgba(0,0,0,.4);
+}
+html { scroll-behavior: smooth; }
+
+*{box-sizing:border-box}
+html,body{height:100%}
+
+body{
+  margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  overflow-x: hidden;
+  color:var(--text);
+  background:
+    radial-gradient(1200px 700px at 10% 10%, rgba(96,165,250,.15), transparent 60%),
+    radial-gradient(1000px 600px at 90% 20%, rgba(139,92,246,.18), transparent 60%),
+    linear-gradient(135deg, var(--grad1), var(--grad2) 30%, var(--grad3) 65%, var(--grad4));
+  background: var(--bg1) !important;
+  min-height:100%;
+}
+
+/* satu layer background gradien untuk SEMUA section */
+body::before{
+  content:"";
+  position: fixed;               /* tetap di viewport, tidak ikut scroll layout */
+  inset: 0;
+  z-index: -1;                   /* di belakang semua konten */
+  pointer-events: none;
+  background:
+    radial-gradient(1200px 700px at 10% 10%, rgba(96,165,250,.15), transparent 60%),
+    radial-gradient(1000px 600px at 90% 20%, rgba(139,92,246,.18), transparent 60%),
+    linear-gradient(135deg, var(--grad1), var(--grad2) 30%, var(--grad3) 65%, var(--grad4));
+  /* bantu GPU, cegah tearing */
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.wrap{
+  max-width:1300px; 
+  margin:0 auto; 
+  padding:28px 24px 0px; 
+  position: relative; 
+  z-index: 0; 
+  background: transparent;
+}
+.hero, .section, .about-section{ background: transparent; padding-left: 30px;}
+
+
+
+/* NAV */
+.navbar{display:flex; justify-content:center; position:sticky; top:20px; z-index:30;}
+.nav-pill{
+  display:flex; gap:.5rem; align-items:center; padding:.5rem;
+  background:var(--glass); border-radius:999px; border:1px solid rgba(255,255,255,.12);
+  backdrop-filter: blur(10px) saturate(140%); box-shadow:var(--shadow);
+}
+.nav-pill a{
+  text-decoration:none; color:var(--text); font-weight:600;
+  padding:.6rem 1.1rem; border-radius:999px;
+  transition:transform .25s ease, background-color .25s ease, color .25s ease, box-shadow .25s ease;
+}
+.nav-pill a:hover{
+  background:linear-gradient(135deg, rgba(139,92,246,.25), rgba(96,165,250,.25));
+  box-shadow:0 0 0 1px rgba(255,255,255,.12), 0 8px 24px rgba(99,102,241,.25);
+  transform:translateY(-1px);
+}
+.nav-pill a.active{ color:#111827; background:#e7e9f3; box-shadow: inset 0 1px 0 rgba(255,255,255,.35) }
+
+/* HERO layout */
+.hero{ display:grid; grid-template-columns:1.2fr .9fr; gap:40px; align-items:center; }
+@media (max-width: 920px){ .hero{ grid-template-columns:1fr; gap:28px } .profile{ justify-self:center } }
+
+/* Teks & animasi */
+.eyebrow{
+  display:inline-block; font-weight:700; letter-spacing:.04em; color:var(--muted);
+  text-transform:uppercase; margin-bottom:8px;
+}
+.title{ font-weight:800; line-height:1.1; margin:0 0 10px; font-size:clamp(36px, 5vw, 56px) }
+.text-js{ opacity: 0; }
+
+.type-js{
+  position: relative;
+  display: inline-block;
+}
+
+.cursor{
+  display: block;
+  position: absolute;
+  height: 100%;
+  top: 0;
+  right: -5px;
+  width: 2px;
+  background-color: #fff;     /* warna kursor */
+  z-index: 1;
+  animation: flash .5s infinite alternate;
+}
+
+@keyframes flash{
+  0%{ opacity: 1; }
+  100%{ opacity: 0; }
+}
+@keyframes caret{ 50%{ border-color:transparent } }
+
+.desc{ color:var(--muted); font-size:clamp(14px, 1.9vw, 16px); line-height:1.7; margin:14px 0 24px; }
+
+/* — HERO Social Links — */
+.hero .social-links { margin-top: 10px; }
+
+.hero ul.example-2 {            /* hindari style global ke semua <ul> */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.hero .example-2 .icon-content { position: relative; }
+
+.hero .example-2 .icon-content .tooltip{
+  position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
+  color: #fff; padding: 6px 10px; border-radius: 5px; opacity: 0; visibility: hidden;
+  font-size: 13px; transition: all .3s ease; white-space: nowrap;
+}
+.hero .example-2 .icon-content:hover .tooltip{ opacity:1; visibility:visible; top: 60px; }
+
+.hero .example-2 .icon-content a{
+  position: relative; overflow: hidden; display:flex; justify-content:center; align-items:center;
+  width: 50px; height: 50px; border-radius: 50%;
+  color: #4d4d4d; background-color: #fff; transition: all .3s ease-in-out;
+  box-shadow: 0 6px 20px rgba(0,0,0,.18);
+}
+.hero .example-2 .icon-content a:hover{ color:#fff; box-shadow: 0 10px 28px rgba(0,0,0,.28); }
+.hero .example-2 .icon-content a svg{ width: 28px; height: 28px; z-index: 1; }
+
+.hero .example-2 .icon-content a .filled{
+  position:absolute; left:0; right:0; bottom:0; height:0; transition: height .3s ease-in-out;
+}
+.hero .example-2 .icon-content a:hover .filled{ height:100%; }
+
+/* Warna per network */
+.hero .example-2 a[data-social="linkedin"] .filled,
+.hero .example-2 a[data-social="linkedin"] ~ .tooltip{ background-color:#0274b3; }
+.hero .example-2 a[data-social="github"] .filled,
+.hero .example-2 a[data-social="github"] ~ .tooltip{ background-color:#24262a; }
+.hero .example-2 a[data-social="instagram"] .filled,
+.hero .example-2 a[data-social="instagram"] ~ .tooltip{
+  background: linear-gradient(45deg,#405de6,#5b51db,#b33ab4,#c135b4,#e1306c,#fd1f1f);
+}
+.hero .example-2 a[data-social="youtube"] .filled,
+.hero .example-2 a[data-social="youtube"] ~ .tooltip{ background-color:#ff0000; }
+
+
+/* Entrance slide-in kiri */
+.reveal{ opacity:0; transform:translateX(-24px); animation: slideIn .8s ease forwards }
+.reveal.delay-1{ animation-delay:.1s }
+.reveal.delay-2{ animation-delay:.25s }
+.reveal.delay-3{ animation-delay:.38s }
+@keyframes slideIn{ to{ opacity:1; transform:none } }
+
+/* === PROFILE + RAINBOW BOX GLOW (Uiverse adapted) === */
+.profile{
+  /* ukuran & layout tetap */
+  position:relative; width:min(340px, 78vw); aspect-ratio: 3/4;
+  justify-self:end; margin-top: -20px; height: 85%; width: 85%;
+  /* parameter border */
+  --radius: 18px;   /* radius foto */
+  --ring: 10px;     /* tebal border pelangi */
+  padding: var(--ring);
+  border-radius: 58% 42% 62% 38% / 55% 45% 55% 45%;
+  overflow: visible;                 /* biar aura bisa keluar */
+  animation: blobMorph 14s ease-in-out infinite;
+  position: relative; 
+}
+
+.profile::before{
+  content:"";
+  position:absolute;
+  inset:-28px;                       /* seberapa besar aura di luar shape */
+  border-radius: inherit;
+  z-index:0;
+  pointer-events:none;
+  /* campuran “gelombang” warna lembut */
+  background:
+    radial-gradient(60% 80% at 75% 25%, rgba(167,103,229,.20), transparent 65%),
+    radial-gradient(70% 70% at 20% 85%, rgba(18,188,254,.20), transparent 60%),
+    radial-gradient(55% 65% at 10% 20%, rgba(79,207,112,.18), transparent 65%);
+  filter: blur(28px) saturate(120%);
+  animation: slowRotate 32s linear infinite;
+}
+
+
+/* Container glow pelangi: di belakang foto dan berputar */
+.rainbow-border .rb-container{
+  position:absolute; inset:0; border-radius:inherit;
+  animation: rotate_3922 6s linear infinite;             /* lebih pelan & halus */
+  background-color:#9b59b6;
+  background-image:linear-gradient(#9b59b6,#84cdfa,#5ad1cd);
+  z-index:0;   /* di bawah foto */
+  filter:saturate(120%);
+}
+
+/* 4 lapis blur seperti referensi Uiverse */
+.rainbow-border .rb-container span{
+  position:absolute; inset:0; border-radius:inherit;
+  background-color:#9b59b6;
+  background-image:linear-gradient(#9b59b6,#84cdfa,#5ad1cd);
+}
+.rainbow-border .rb-container span:nth-of-type(1){ filter:blur(5px);  }
+.rainbow-border .rb-container span:nth-of-type(2){ filter:blur(10px); }
+.rainbow-border .rb-container span:nth-of-type(3){ filter:blur(25px); }
+.rainbow-border .rb-container span:nth-of-type(4){ filter:blur(50px); }
+
+/* RING pelangi persis di tepi foto, berputar terus */
+/* From Uiverse.io by SelfMadeSystem */ 
+/* Yoinked from CodePen, but improved the animation
+so that it is smooth among other more minor things */
+
+.border-img img{
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+.border-img {
+  display: block;
+  cursor: pointer;
+  z-index:1;
+  margin: 0 auto;
+  margin-top: 40px;
+  position: relative;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 22px;
+  overflow: hidden;
+  padding: 5px;
+  isolation: isolate;
+  width: 80%;
+  height: 80%;
+
+  /* warna glow bisa kamu tweak */
+  --glowA: rgba(255,255,255,.26);      /* highlight putih tipis */
+  --glowB: rgba(103,232,249,.25);      /* cyan */
+  --glowC: rgba(168,85,247,.24);       /* purple */
+  --glowD: rgba(59,130,246,.18);       /* blue */
+
+  /* layered glow di luar bingkai */
+  box-shadow:
+    0 0 10px 2px var(--glowA),
+    0 0 24px 6px var(--glowB),
+    0 0 48px 10px var(--glowC),
+    0 0 84px 16px var(--glowD);
+}
+
+.border-img::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 400%;
+  height: 100%;
+  background: linear-gradient(115deg,#4fcf70,#fad648,#a767e5,#12bcfe,#44ce7b);
+  background-size: 25% 100%;
+  animation: an-at-keyframe-css-at-rule-that-translates-via-the-transform-property-the-background-by-negative-25-percent-of-its-width-so-that-it-gives-a-nice-border-animation_-We-use-the-translate-property-to-have-a-nice-transition-so-it_s-not-a-jerk-of-a-start-or-stop .75s linear infinite;
+  animation-play-state: paused;
+  translate: -5% 0%;
+  transition: translate 0.25s ease-out;
+}
+
+.border-img:hover::before {
+  animation-play-state: running;
+  transition-duration: 0.5s;
+  translate: 0% 0%;
+}
+
+.border-img::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 3px; /* samakan dengan padding .border-img agar pas di ring */
+  /* gunakan gradasi yang sama agar glow mengikuti warna border */
+  background: conic-gradient(
+    red, orange, yellow, green, blue, pink, purple, red
+  );
+  /* tampilkan hanya area RING (bukan tengah) */
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+
+  /* glossy + bright */
+  filter: blur(12px) saturate(140%) brightness(1.15);
+  opacity: .75;
+  mix-blend-mode: screen;   /* menambah kilau tanpa menutup warna asli */
+  z-index: 0;               /* berada di bawah konten (img z-index:1) */
+  pointer-events: none;
+}
+
+/* 3) (Opsional) Glow bertingkat halus seperti 4 span blur di contohmu */
+.border-img.gloss-boost::after{
+  /* versi lebih terang: naikkan blur & opacity */
+  filter: blur(16px) saturate(150%) brightness(1.2);
+  opacity: .9;
+}
+
+@keyframes an-at-keyframe-css-at-rule-that-translates-via-the-transform-property-the-background-by-negative-25-percent-of-its-width-so-that-it-gives-a-nice-border-animation_-We-use-the-translate-property-to-have-a-nice-transition-so-it_s-not-a-jerk-of-a-start-or-stop {
+  to {
+    transform: translateX(-25%);
+  }
+}
+
+/* Keyframes dari Uiverse, disesuaikan agar tidak pakai translate-50% */
+@keyframes rotate_3922{
+  from{ transform: rotate(0deg); }
+  to  { transform: rotate(360deg); }
+}
+
+/* --- Keyframes: blob berdenyut + rotasi aura --- */
+@keyframes blobMorph{
+  0%{
+    border-radius: 58% 42% 62% 38% / 55% 45% 55% 45%;
+  }
+  33%{
+    border-radius: 45% 55% 40% 60% / 52% 60% 40% 48%;
+  }
+  66%{
+    border-radius: 68% 32% 55% 45% / 40% 60% 50% 50%;
+  }
+  100%{
+    border-radius: 58% 42% 62% 38% / 55% 45% 55% 45%;
+  }
+}
+
+@keyframes slowRotate{
+  from{ transform: rotate(0deg); }
+  to  { transform: rotate(360deg); }
+}
+
+/* Fade-in foto (sudah ada di file sebelumnya, aman kalau double) */
+@keyframes picFade{ to{ opacity:1 } }
+
+
+.card#card{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%); /* translasi pusat, rotasi ditimpa di rules hover */
+  width: clamp(220px, 70%, 360px);
+  aspect-ratio: 3 / 4;             /* tinggi otomatis proporsional */
+  height: auto;
+  border-radius: 18px;
+  background: #3405a3;
+  box-shadow: 1px 5px 60px 0px #100a886b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 14px 18px;
+  z-index: 1;                       /* di atas aura blob */
+}
+
+/* header strip */
+.card#card .card-border-top{
+  width: 60%;
+  height: 6px;
+  background: #6b64f3;
+  border-radius: 0 0 12px 12px;
+  margin: 0 auto 10px;
+}
+
+/* Gambar besar di bagian atas card */
+.card#card .img{
+  width: 90%;
+  height: 90%;
+  aspect-ratio: 4 / 3;              /* area foto */
+  border-radius: 14px;
+  overflow: hidden;
+
+  margin: 10px 0 12px;
+}
+.card#card .img img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: inherit;
+}
+
+/* teks & tombol */
+.card#card span{ margin-top: 2px; }
+.card#card .job{ margin-top: 4px; }
+.card#card button{ margin-top: auto; } /* tombol dorong ke bawah */
+
+/* Glow lembut di belakang card (pakai gradient yang sama) */
+.card#card::before{
+  content:"";
+  position:absolute; inset:-24px;
+  border-radius: inherit;
+  background: linear-gradient(43deg,
+    rgb(65, 88, 208) 0%,
+    rgb(200, 80, 192) 46%,
+    rgb(255, 204, 112) 100%);
+  filter: blur(2.2rem);
+  opacity: .5;
+  z-index: -1;
+  transition: opacity 200ms;
+}
+.container.profile-tilt:hover .card#card::before{ opacity: .9; }
+
+.card {
+ width: 190px;
+ height: 254px;
+ background: #3405a3;
+ border-radius: 15px;
+ box-shadow: 1px 5px 60px 0px #100a886b;
+}
+
+.card .card-border-top {
+ width: 60%;
+ height: 3%;
+ background: #6b64f3;
+ margin: auto;
+ border-radius: 0px 0px 15px 15px;
+}
+
+.card span {
+ font-weight: 600;
+ color: white;
+ text-align: center;
+ display: block;
+ padding-top: 10px;
+ font-size: 16px;
+}
+
+.card .job {
+ font-weight: 400;
+ color: white;
+ display: block;
+ text-align: center;
+ padding-top: 3px;
+ font-size: 12px;
+}
+
+.card .img {
+ width: 70px;
+ height: 80px;
+
+ border-radius: 15px;
+ margin: auto;
+ margin-top: 25px;
+}
+
+.card button {
+ padding: 8px 25px;
+ display: block;
+ margin: auto;
+ border-radius: 8px;
+ border: none;
+ margin-top: 30px;
+ background: #6b64f3;
+ color: white;
+ font-weight: 600;
+}
+
+.card button:hover {
+ background: #534bf3;
+}
+
+/* ===== Hover Tracker Card — versi untuk foto ===== */
+
+/* Container mengikuti ukuran parent (.profile) dan radius/“blob” */
+.profile .container.profile-tilt{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transition: transform 200ms;
+}
+.profile .container.profile-tilt:active{
+  transform: scale(.98);
+}
+
+/* Grid tracker 5x5 menutupi area penuh */
+.profile .container.profile-tilt .canvas{
+  position: absolute; inset: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  grid-template-areas:
+    "tr-1 tr-2 tr-3 tr-4 tr-5"
+    "tr-6 tr-7 tr-8 tr-9 tr-10"
+    "tr-11 tr-12 tr-13 tr-14 tr-15"
+    "tr-16 tr-17 tr-18 tr-19 tr-20"
+    "tr-21 tr-22 tr-23 tr-24 tr-25";
+  border-radius: inherit;
+  perspective: 800px;
+  z-index: 10;
+}
+.profile .container.profile-tilt .tracker{
+  position: relative;
+  width: 100%; height: 100%;
+  z-index: 200;
+}
+
+/* Kartu berisi gambar (mengganti konten teks template) */
+#card.photo-card{
+  position: absolute; inset: 0;
+  z-index: 0;
+  border-radius: inherit;          /* ikuti bentuk blob/radius parent */
+  overflow: hidden;
+  display: block;
+
+  /* gradient dasar (dipakai juga untuk blur glow via ::before) */
+  background: linear-gradient(43deg,
+    rgb(65, 88, 208) 0%,
+    rgb(200, 80, 192) 46%,
+    rgb(255, 204, 112) 100%);
+  transition: filter 300ms;
+}
+#card.photo-card img{
+  display: block;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: inherit;          /* sudut gambar = sudut kartu */
+}
+
+/* Glow lembut di belakang kartu (dari template) */
+#card.photo-card::before{
+  content:"";
+  position:absolute; inset:0;
+  border-radius: inherit;
+  background: inherit;
+  filter: blur(2rem);
+  opacity: .3;
+  z-index: -1;
+  transition: opacity 200ms;
+}
+.container.profile-tilt:hover #card.photo-card{
+  filter: brightness(1.08);
+}
+.container.profile-tilt:hover #card.photo-card::before{
+  opacity: .8;
+}
+
+/* Area-areas grid (perlu agar selector hover bekerja) */
+.tr-1{grid-area:tr-1} .tr-2{grid-area:tr-2} .tr-3{grid-area:tr-3} .tr-4{grid-area:tr-4} .tr-5{grid-area:tr-5}
+.tr-6{grid-area:tr-6} .tr-7{grid-area:tr-7} .tr-8{grid-area:tr-8} .tr-9{grid-area:tr-9} .tr-10{grid-area:tr-10}
+.tr-11{grid-area:tr-11} .tr-12{grid-area:tr-12} .tr-13{grid-area:tr-13} .tr-14{grid-area:tr-14} .tr-15{grid-area:tr-15}
+.tr-16{grid-area:tr-16} .tr-17{grid-area:tr-17} .tr-18{grid-area:tr-18} .tr-19{grid-area:tr-19} .tr-20{grid-area:tr-20}
+.tr-21{grid-area:tr-21} .tr-22{grid-area:tr-22} .tr-23{grid-area:tr-23} .tr-24{grid-area:tr-24} .tr-25{grid-area:tr-25}
+
+/* Rotasi 3D mengikuti template asli (disingkat) */
+.tr-1:hover ~ #card{transform: translate(-50%,-50%) rotateX(20deg)  rotateY(-10deg)}
+.tr-2:hover ~ #card{transform: translate(-50%,-50%) rotateX(20deg)  rotateY(-5deg)}
+.tr-3:hover ~ #card{transform: translate(-50%,-50%) rotateX(20deg)  rotateY(0)}
+.tr-4:hover ~ #card{transform: translate(-50%,-50%) rotateX(20deg)  rotateY(5deg)}
+.tr-5:hover ~ #card{transform: translate(-50%,-50%) rotateX(20deg)  rotateY(10deg)}
+
+.tr-6:hover ~ #card{transform: translate(-50%,-50%) rotateX(10deg)  rotateY(-10deg)}
+.tr-7:hover ~ #card{transform: translate(-50%,-50%) rotateX(10deg)  rotateY(-5deg)}
+.tr-8:hover ~ #card{transform: translate(-50%,-50%) rotateX(10deg)  rotateY(0)}
+.tr-9:hover ~ #card{transform: translate(-50%,-50%) rotateX(10deg)  rotateY(5deg)}
+.tr-10:hover ~ #card{transform: translate(-50%,-50%) rotateX(10deg)  rotateY(10deg)}
+
+.tr-11:hover ~ #card{transform: translate(-50%,-50%) rotateX(0)     rotateY(-10deg)}
+.tr-12:hover ~ #card{transform: translate(-50%,-50%) rotateX(0)     rotateY(-5deg)}
+.tr-13:hover ~ #card{transform: translate(-50%,-50%) rotateX(0)     rotateY(0)}
+.tr-14:hover ~ #card{transform: translate(-50%,-50%) rotateX(0)     rotateY(5deg)}
+.tr-15:hover ~ #card{transform: translate(-50%,-50%) rotateX(0)     rotateY(10deg)}
+
+.tr-16:hover ~ #card{transform: translate(-50%,-50%) rotateX(-10deg) rotateY(-10deg)}
+.tr-17:hover ~ #card{transform: translate(-50%,-50%) rotateX(-10deg) rotateY(-5deg)}
+.tr-18:hover ~ #card{transform: translate(-50%,-50%) rotateX(-10deg) rotateY(0)}
+.tr-19:hover ~ #card{transform: translate(-50%,-50%) rotateX(-10deg) rotateY(5deg)}
+.tr-20:hover ~ #card{transform: translate(-50%,-50%) rotateX(-10deg) rotateY(10deg)}
+
+.tr-21:hover ~ #card{transform: translate(-50%,-50%) rotateX(-20deg) rotateY(-10deg)}
+.tr-22:hover ~ #card{transform: translate(-50%,-50%) rotateX(-20deg) rotateY(-5deg)}
+.tr-23:hover ~ #card{transform: translate(-50%,-50%) rotateX(-20deg) rotateY(0)}
+.tr-24:hover ~ #card{transform: translate(-50%,-50%) rotateX(-20deg) rotateY(5deg)}
+.tr-25:hover ~ #card{transform: translate(-50%,-50%) rotateX(-20deg) rotateY(10deg)}
+
+/* ===== HERO scroll-reveal (tanpa ubah HTML) ===== */
+#hero .reveal{
+  animation: none !important;            /* matikan animasi .reveal lama di hero */
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    transform 750ms cubic-bezier(.22,1,.36,1),
+    opacity 750ms ease;
+  will-change: transform, opacity;
+}
+/* delay tetap bekerja tapi untuk transition */
+#hero .reveal.delay-1{ transition-delay: 80ms }
+#hero .reveal.delay-2{ transition-delay: 220ms }
+#hero .reveal.delay-3{ transition-delay: 380ms }
+
+/* ketika in-view, tampil */
+#hero .reveal.inview{
+  opacity: 1;
+  transform: none;
+}
+
+/* opsional: ikut animasikan kartu foto hero juga */
+#hero .profile{
+  transition:
+    transform 900ms cubic-bezier(.22,1,.36,1),
+    opacity 900ms ease;
+  will-change: transform, opacity;
+}
+#hero .profile:not(.inview){
+  opacity: 0;
+  transform: translateY(24px) scale(.985);
+}
+#hero .profile.inview{
+  opacity: 1;
+  transform: none;
+}
+

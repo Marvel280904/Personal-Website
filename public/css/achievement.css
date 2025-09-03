@@ -1,0 +1,242 @@
+/* public/css/achievement.css */
+
+/* --- Main Layout & Scene --- */
+.achievement-section{
+    padding: 0 0 20 0; margin: 0;
+}
+
+.ach-main-title {
+    text-align: center;
+    color: #fff;
+    font-weight: 800;
+    font-size: clamp(28px, 4vw, 40px);
+    margin-bottom: 2rem;
+}
+
+.ach-scene {
+    position: relative;
+    width: 100%;
+    height: 600px; /* Tinggi area panggung */
+    perspective: 1500px; /* Efek 3D */
+}
+
+.ach-stone-container {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+}
+
+/* --- Floating Stones (Cubes) --- */
+.ach-stone {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    transform-style: preserve-3d;
+    animation: float 8s ease-in-out infinite;
+}
+
+.ach-stone.is-center {
+    transform: translate(-50%, -30%) translateZ(100px);
+    z-index: 10;  left: 38.3%; top: 65%; width: 400px;
+}
+
+.ach-stone.is-left {
+    transform: translate(-150%, -50%) rotateY(-30deg) translateZ(-400px);
+    animation-delay: -2s; left: 6%; top: 50%;
+    z-index: 5;
+}
+
+.ach-stone.is-right {
+    transform: translate(50%, -50%) rotateY(30deg) translateZ(-400px);
+    animation-delay: -5s; right: 5%; top: 50%;
+    z-index: 5;
+}
+
+.cube {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transform: rotateX(-10deg) rotateY(45deg);
+}
+
+.face {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    background: linear-gradient(145deg, #1e2949, #11182c);
+    border: 1px solid rgba(125, 150, 255, 0.1);
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.5);
+}
+
+.face.front {
+    transform: rotateY(0deg) translateZ(125px);
+    height: 400px;
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 100%);
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 100%);
+}
+.face.back {
+    /* Putar 180 derajat agar menghadap ke belakang lalu dorong keluar */
+    transform: rotateY(180deg) translateZ(125px);
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 100%);
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 100%);
+}
+.face.right {
+    transform: rotateY(90deg) translateZ(125px);
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 100%);
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 100%);
+}
+.face.left {
+    transform: rotateY(-90deg) translateZ(125px);
+    height: 400px;
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 100%);
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 100%);
+}
+.face.top {
+    transform: rotateX(90deg) translateZ(125px);
+    /* Kita pertahankan background custom Anda untuk sisi atas */
+    background: linear-gradient(45deg, #2a3a63, #1e2949); 
+}
+.face.bottom {
+    transform: rotateX(-90deg) translateZ(125px);
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+/* --- Slider & Cool Flying Animation --- */
+.ach-track {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    pointer-events: none; /* Biar tidak menghalangi interaksi */
+}
+
+.ach-slide {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 320px; /* Ukuran gambar slide */
+    transform-origin: center center;
+    transition: transform 1.2s cubic-bezier(0, -1, 0, 1), opacity 0.8s ease;
+    opacity: 0;
+}
+
+.ach-slide img {
+    width: 80%; height: 50%;
+    border-radius: 12px;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    border: 2px solid rgba(255,255,255,0.1);
+    animation: float 8s ease-in-out infinite;
+}
+
+.ach-slide.is-active {
+    transform: translate(-37%, -80%) translateZ(120px) scale(1);
+    opacity: 1;
+    z-index: 20;
+}
+
+.ach-slide.is-prev {
+    transform: translate(-160%, -100%) rotateY(20deg) translateZ(-380px) scale(0.7);
+    opacity: 0.5;
+    z-index: 5;
+}
+
+.ach-slide.is-next {
+    transform: translate(80%, -100%) rotateY(-20deg) translateZ(-380px) scale(0.7);
+    opacity: 0.5;
+    z-index: 5;
+}
+
+/* =========================================================
+   ENTER / LEAVE ANIMATIONS (dipicu via class di JS)
+========================================================= */
+
+/* === Tambah variabel base-top agar animasi top bisa relatif ke posisi aslinya === */
+.ach-stone.is-center { --base-top: 65%; }  /* sama dengan top aslinya */
+.ach-stone.is-left   { --base-top: 50%; }
+.ach-stone.is-right  { --base-top: 50%; }
+
+/* === Tulis ulang animasi stoneIn/stoneOut agar menggerakkan TOP, bukan transform === */
+/* (Definisi di bawah ini akan override definisi sebelumnya dengan nama sama) */
+@keyframes stoneIn {
+  0%   { top: calc(var(--base-top) + 180px); opacity: 0; }
+  40%  { top: calc(var(--base-top) - 20px); opacity: 1; } /* overshoot ke atas */
+  60%  { top: calc(var(--base-top) + 15px); }
+  75%  { top: calc(var(--base-top) - 10px); }
+  88%  { top: calc(var(--base-top) + 5px); }
+  100% { top: var(--base-top); }
+}
+@keyframes stoneOut {
+  0%   { top: var(--base-top); opacity: 1; }
+  20%  { top: calc(var(--base-top) - 6px); }
+  100% { top: calc(var(--base-top) + 180px); opacity: 0; }
+}
+
+/* === Pastikan saat entering/leaving, animasi float TETAP berjalan bersamaan === */
+.achievement-section.is-entering .ach-stone{
+  /* jalankan 2 animasi: stoneIn (TOP) + float (TRANSFORM) */
+  animation:
+    stoneIn .95s cubic-bezier(.22,1,.36,1) forwards,
+    float 8s ease-in-out infinite;
+}
+.achievement-section.is-leaving .ach-stone{
+  /* jalankan 2 animasi: stoneOut (TOP) + float (TRANSFORM) */
+  animation:
+    stoneOut .7s cubic-bezier(.4,0,.8,.8) forwards,
+    float 8s ease-in-out infinite;
+}
+
+
+/* Slide hanya terlihat setelah batu selesai naik — slow fade */
+.achievement-section .ach-slide{
+  opacity: 0;
+  /* pertahankan animasi transform-mu + perlambat opacity */
+  transition:
+    transform 1.2s cubic-bezier(0, -1, 0, 1),
+    opacity 1.6s ease-in-out;   /* <— dulu 0.8s, sekarang slowmo */
+}
+
+.achievement-section.slides-on .ach-slide.is-active{ opacity: 1; }
+.achievement-section.slides-on .ach-slide.is-prev,
+.achievement-section.slides-on .ach-slide.is-next{ opacity: .5; }
+
+/* Saat keluar, semua slide fade-out juga slowmo */
+.achievement-section.is-leaving .ach-slide{
+  opacity: 0 !important;
+  transition:
+    transform 1.2s cubic-bezier(0, -1, 0, 1),
+    opacity 1.2s ease-in-out !important;  /* <— dulu .35s */
+}
+
+/* aktifkan interaksi pointer utk track */
+.achievement-section .ach-track { pointer-events: auto; }
+
+/* default: non-aktif tidak bisa diklik */
+.achievement-section .ach-slide img { pointer-events: none; }
+
+/* hanya slide aktif yang interaktif */
+.achievement-section .ach-slide.is-active img {
+  pointer-events: auto;
+  cursor: zoom-in;
+  transition: box-shadow .4s ease, filter .4s ease, transform .25s ease;
+}
+
+/* efek hover: cahaya neon hijau menyebar di border */
+.achievement-section .ach-slide.is-active img:hover {
+  /* ring tipis + glow berlapis */
+  box-shadow:
+    0 0 0 2px rgba(0,255,170,.35),
+    0 0 22px rgba(0,255,170,.55),
+    0 0 48px rgba(0,255,170,.45),
+    0 0 96px rgba(0,255,170,.35),
+    0 25px 50px -12px rgba(0,0,0,.5); /* bayangan existing, dipertahankan */
+  filter: saturate(115%) brightness(1.05);
+}
+
+/* opsional: sedikit tekan saat klik */
+.achievement-section .ach-slide.is-active img:active {
+  transform: scale(.99);
+}

@@ -1,0 +1,446 @@
+/* =========================================================
+    PORTFOLIO — Layout & Sizing (Original)
+========================================================= */
+.portfolio-section{
+  position: relative;
+  padding-block: clamp(56px, 8vw, 96px);
+  overflow: hidden; /* Tambahkan ini untuk mencegah scrollbar saat animasi jatuh */
+}
+.pf-grid{
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: clamp(18px, 3.6vw, 40px);
+  align-items: start;
+}
+.pf-grid.pf-compact{
+  grid-template-columns: 1fr .85fr;
+  gap: clamp(16px, 3.2vw, 32px);
+}
+.pf-left{ display:flex; justify-content:center; }
+.pf-right{ width: min(480px, 92vw); margin-inline:auto; position: relative;}
+.pf-title{
+  position: sticky; text-align: center;
+  top: 5px; margin: 0 0 16px;
+  color: #fff; font-weight: 800; font-size: clamp(26px,3.6vw,36px);
+  z-index: 2;
+}
+
+/* =========================================================
+    MONITOR (Original)
+========================================================= */
+.pf-monitor{
+  position: relative;
+  width: min(620px, 82vw);
+  margin-inline:auto;
+  padding-bottom: 120px;
+}
+.pf-frame{
+  position: relative; width: 100%; aspect-ratio: 16/9;
+  background: linear-gradient(180deg,#2b2f3f,#141827 50%, #0a0e18);
+  border-radius: 16px; overflow: hidden;
+  box-shadow: inset 0 2px 2px rgba(255,255,255,.10), inset 0 -2px 6px rgba(0,0,0,.50), 0 24px 52px rgba(0,0,0,.55);
+}
+.pf-frame::before{
+  content:""; position:absolute; inset:8px;
+  border-radius: 12px; background: linear-gradient(180deg,#0b1020,#0a1328);
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.05);
+}
+.pf-screen{
+  position:absolute; inset:14px;
+  border-radius: 10px; overflow:hidden;
+  background: #000; /* Layar awal hitam */
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.05);
+  isolation: isolate;
+}
+.pf-screen::after{
+  content:""; position:absolute; inset:0;
+  background: linear-gradient(115deg, rgba(255,255,255,.08), transparent 40% 60%, rgba(255,255,255,.04));
+  mix-blend-mode: screen; pointer-events:none;
+}
+.pf-track{
+  position: absolute; inset: 0;      /* center & full di dalam screen */
+  display: flex;
+  transition: transform 500ms cubic-bezier(.22,1,.36,1), opacity .4s ease;
+  z-index: 1;                        /* di atas wallpaper */
+  opacity: 0;
+}
+.pf-slide{ flex:0 0 100%; display:flex; align-items:center; justify-content:center; padding: 18px; }
+.pf-slide-inner{
+  width:min(82%,700px); padding:16px 18px; border-radius: 14px; color:#e8ebf5; text-align:center;
+  background: linear-gradient(135deg, rgba(99,102,241,.15), rgba(56,189,248,.12));
+  box-shadow: 0 8px 24px rgba(0,0,0,.30), inset 0 0 0 1px rgba(255,255,255,.06);
+}
+.pf-slide-inner.alt{ background: linear-gradient(135deg, rgba(168,85,247,.16), rgba(59,130,246,.14)); }
+.pf-slide-inner img{ height: 250px; width: 420px; }
+.pf-stand{
+  position:absolute; left:43%; transform:translateX(-50%);
+  top: calc(72% + 4px); width: clamp(100px, 16%, 140px); height: clamp(38px, 5.5vw, 56px);
+  background: linear-gradient(180deg, #1b2230, #0c121e); border-radius: 14px 14px 6px 6px;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,.08), 0 12px 24px rgba(0,0,0,.45);
+}
+.pf-base{
+  position:absolute; left:26%; transform:translateX(-50%);
+  top: calc(72% + 60px); width: clamp(300px, 48%, 430px); height: clamp(18px, 2.6vw, 26px);
+  background: linear-gradient(180deg, #121827, #0b1220); border-radius: 12px;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,.06), 0 12px 24px rgba(0,0,0,.45);
+}
+
+/* =========================================================
+    NAV BUTTONS (Original)
+========================================================= */
+.pf-nav{ 
+  position:absolute; inset-inline:0; display:flex; justify-content:space-between; 
+  align-items:center; top: calc(78% + 10px); pointer-events: none; /* biar klik hanya pada tombol */ 
+} 
+.pf-btn{ 
+  transform-style: preserve-3d; position: relative; width: 84px; height: 28px; 
+  border: none; background: transparent; cursor: pointer; pointer-events:auto; 
+  list-style:none; font-family: inherit; margin-top: 30px;
+} 
+
+.pf-prev{ transform: rotate(25deg) skew(-25deg) scale(.9); } 
+.pf-next{ transform: rotate(-25deg) skew(25deg) scale(.9); }
+
+.pf-next::before{ 
+  content:""; position:absolute; bottom:-10px; left:-5px; 
+  width:100%; height:10px; background:#2a2a2a; transform: skewX(-41deg); 
+} 
+.pf-next::after{ 
+  content:""; position:absolute; top:5px; left:-9px; 
+  width:9px; height:100%; background:#2a2a2a; transform: skewY(-49deg); 
+} 
+
+.pf-prev::before{ 
+  content:""; position:absolute; bottom:-10px; right:-5px; 
+  width:100%; height:10px; background:#2a2a2a; transform: skewX(41deg); 
+} 
+.pf-prev::after{ 
+  content:""; position:absolute; top:5px; right:-9px; 
+  width:9px; height:100%; background:#2a2a2a; transform: skewY(49deg); 
+}
+
+.pf-btn span{ 
+  position:absolute; inset:0; background:#2a2a2a; color:#fff; 
+  font-size:20px; display:flex; align-items:center; 
+  justify-content: center; transition:1.1s ease-out; 
+} 
+
+/* BTN NEXT */ 
+.pf-next:hover span{ z-index:1000; transition:.3s; } 
+.pf-next:hover span:nth-child(5){ transform: translate(40px,-40px); opacity:1; background:#52E19F;} 
+.pf-next:hover span:nth-child(4){ transform: translate(30px,-30px); opacity:.8; background:#e15252;} 
+.pf-next:hover span:nth-child(3){ transform: translate(20px,-20px); opacity:.6; background:#5278e1;} 
+.pf-next:hover span:nth-child(2){ transform: translate(10px,-10px); opacity:.4; background:#bb52e1;} 
+.pf-next:hover span:nth-child(1){ transform: translate(0,0); opacity:.2; background:#bbe152;} 
+
+/* aktif */ 
+.pf-next:active span:nth-child(5){ transform: translate(20px,-20px); opacity:1; background:#52E19F;} 
+.pf-next:active span:nth-child(4){ transform: translate(15px,-15px); background:#e15252;} 
+.pf-next:active span:nth-child(3){ transform: translate(10px,-10px); background:#5278e1;} 
+.pf-next:active span:nth-child(2){ transform: translate(5px,-5px); background:#bb52e1;} 
+.pf-next:active span:nth-child(1){ transform: translate(0,0); background:#bbe152;} 
+
+/* BTN PREV */ 
+.pf-prev:hover span{ z-index:1000; transition:.3s; } 
+.pf-prev:hover span:nth-child(5){ transform: translate(-40px,-40px); opacity:1; background:#52E19F;} 
+.pf-prev:hover span:nth-child(4){ transform: translate(-30px,-30px); opacity:.8; background:#e15252;} 
+.pf-prev:hover span:nth-child(3){ transform: translate(-20px,-20px); opacity:.6; background:#5278e1;} 
+.pf-prev:hover span:nth-child(2){ transform: translate(-10px,-10px); opacity:.4; background:#bb52e1;} 
+.pf-prev:hover span:nth-child(1){ transform: translate(0,0); opacity:.2; background:#bbe152;} 
+
+/* aktif */ 
+.pf-prev:active span:nth-child(5){ transform: translate(-20px,-20px); opacity:1; background:#52E19F;} 
+.pf-prev:active span:nth-child(4){ transform: translate(-15px,-15px); background:#e15252;} 
+.pf-prev:active span:nth-child(3){ transform: translate(-10px,-10px); background:#5278e1;} 
+.pf-prev:active span:nth-child(2){ transform: translate(-5px,-5px); background:#bb52e1;} 
+.pf-prev:active span:nth-child(1){ transform: translate(0,0); background:#bbe152;}
+
+/* =========================================================
+    GLASS BUTTON (Original)
+========================================================= */
+.glass-btn{
+  display:inline-block; padding: 10px 18px; border-radius: 999px;
+  color: #e7e9f3; text-decoration:none; font-weight: 700; letter-spacing:.02em;
+  background: var(--glass, rgba(198,185,185,.08));
+  border: 1px solid rgba(255,255,255,.12);
+  backdrop-filter: blur(10px) saturate(140%);
+  box-shadow: var(--shadow, 0 10px 40px rgba(0,0,0,.4));
+  transition: transform .2s ease, box-shadow .2s ease, filter .2s ease, background .2s ease;
+}
+.glass-btn:hover{ margin-bottom: 5px; filter: saturate(110%); background: linear-gradient(135deg, rgba(139,92,246,.25), rgba(96,165,250,.25)); box-shadow: 0 10px 28px rgba(99,102,241,.35); }
+
+/* =========================================================
+    HOLOGRAM (Original + Position Fix)
+========================================================= */
+.pf-holo{  
+  position: absolute; top: 75%; left: 78.3%;
+  transform: translateX(-50%); justify-self: unset;
+  width: min(400px, 90vw); margin: 0; z-index: 0;  
+}
+.light-button{ display:flex; justify-content:center; }
+.light-button button.bt{ position: relative; width: 100%; height: 40px; display:flex; align-items:flex-end; justify-content:center; background:none; border:none; outline:none; cursor: default; }
+.light-button button.bt .light-holder{
+  --beam-color: 202,53,232; --beam-base: 50px; --beam-spread: 500px; --beam-height: 150px; --rect-height: 300px;
+  position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: var(--beam-spread); height: calc(var(--beam-height) + var(--rect-height));
+  display: flex; flex-direction: column; align-items: center; pointer-events: none; z-index: 0;
+}
+.light-button button.bt .light-holder .dot{
+  position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: var(--beam-base); height: 10px; border-radius: 999px;
+  background: radial-gradient(ellipse at 50% 30%, rgba(255,255,255,.18), rgba(255,255,255,0) 60%), linear-gradient(180deg, #0d0d10, #0a0a0a);
+  box-shadow: 0 6px 14px rgba(0,0,0,.55), inset 0 1px 2px rgba(255,255,255,.1); z-index: 2;
+}
+.light-button button.bt .light{
+  position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%);
+  width: var(--beam-spread); height: calc(var(--beam-height) + var(--rect-height));
+  pointer-events: none; filter: saturate(110%); backface-visibility:hidden; transform-style:preserve-3d; will-change:transform;
+}
+.light-button button.bt .light::before{
+  content: ""; position: absolute; inset:0; opacity: 0.9;
+  background: 
+    linear-gradient( 0deg, 
+    rgba(var(--beam-color), .85) 0%, 
+    rgba(var(--beam-color), .68) calc(var(--beam-height) * .45), 
+    rgba(var(--beam-color), .55) var(--beam-height), 
+    rgba(var(--beam-color), .22) 
+    calc(var(--beam-height) + var(--rect-height) * .60), 
+    rgba(var(--beam-color), 0)  100% );
+  clip-path: polygon( calc(50% - var(--beam-base)/2) 100%, calc(50% + var(--beam-base)/2) 100%, 100% calc(100% - var(--beam-height)), 100% 0, 0 0, 0 calc(100% - var(--beam-height)) );
+  filter: blur(20px);
+}
+.pf-holo-display{
+  width: min(440px, 90vw); padding-bottom: clamp(0px, 20vw, 160px); text-align: left;
+}
+.pf-holo-title{ margin:0 0 6px; color:#fff; font-weight:800; font-size: clamp(18px,1vw,26px); }
+.pf-holo-desc{ margin:0 0 12px; color: var(--muted, #b7bdd0); line-height: 1.6; font-size: small;}
+.pf-holo-title, .pf-holo-desc{ width: 110%; overflow-wrap: anywhere; word-break: break-word; }
+.pf-pub-link{ 
+  position: absolute; left: 50%; transform: translateX(-50%); 
+  bottom: clamp(0px, 5vw, 100px); margin: 0; display: inline-block; 
+  width: max-content; opacity: 0; pointer-events: none;
+  opacity: 0; /* Sembunyikan di awal */
+  /* Gabungkan transisi opacity dengan transisi hover yang sudah ada */
+  transition: opacity 0.4s ease-in-out, transform .2s ease, box-shadow .2s ease, filter .2s ease, background .2s ease;
+}
+
+/* =========================================================
+    RESPONSIVE (Original)
+========================================================= */
+@media (max-width: 980px){ .pf-right{ width: 100%; } .pf-title{ top: 10px; } .pf-monitor{ width: min(680px, 96vw); } }
+@media (max-width: 560px){ .pf-monitor{ width: 96vw; } .pf-stand{ top: calc(100% + 2px); } .pf-base{ top: calc(100% + 52px); } .pf-nav{ top: calc(100% + 6px); } .pf-btn{ transform: scale(.85); } }
+
+/* =========================================================
+    ↓↓↓ ANIMASI BARU & MODIFIKASI ↓↓↓
+========================================================= */
+
+/* 1. Initial State (Kondisi Awal Sebelum Animasi) */
+.pf-frame, .pf-stand, .pf-base{
+    opacity: 0;
+    transform: translateY(-100vh); /* Mulai dari atas layar */
+}
+.pf-title, .pf-holo-display, .light {
+    opacity: 0;
+}
+.pf-holo-display {
+    transition: opacity 0.4s ease-in-out; /* Transisi untuk fade saat klik */
+}
+
+/* 2. Keyframes untuk Animasi */
+@keyframes dropIn {
+    0% {
+        transform: translateY(-100vh);
+        opacity: 0;
+    }
+    70% {
+        transform: translateY(25px);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes lightBlinkAndGlow {
+    0%, 20%, 40%, 60% { opacity: 0; }
+    10%, 30%, 50% { opacity: 0.8; }
+    67% { opacity: 0; } /* Transisi dari blink ke glow */
+    100% { opacity: 1; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* 3. Menerapkan Animasi saat section terlihat */
+/* Gunakan JS untuk menambahkan class 'is-animating' */
+.portfolio-section.is-animating{
+    animation: dropIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+.portfolio-section.is-animating .pf-base {
+    animation: dropIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s forwards;
+}
+.portfolio-section.is-animating .pf-stand {
+    animation: dropIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s forwards;
+}
+.portfolio-section.is-animating .pf-frame {
+    animation: dropIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s forwards;
+}
+/* Delay: 0.6s (frame drop start) + 0.8s (frame drop duration) + 0.5s (wait) = 1.9s */
+.portfolio-section.is-animating .light {
+    animation: lightBlinkAndGlow 3s 1.9s forwards;
+}
+/* Delay: 1.9s (light start) + 3s (light duration) = 4.9s */
+.portfolio-section.is-animating .pf-title {
+    animation: fadeIn 1s 4.9s forwards;
+}
+
+/* =========================================================
+    LOADING ANIMATION (Hamster)
+========================================================= */
+.pf-loading-overlay {
+    position: absolute; inset: 0;
+    display: flex; justify-content: center; align-items: center;
+    background: #000;
+    z-index: 10;
+    transition: opacity 0.5s ease;
+    opacity: 1;
+}
+.wheel-and-hamster { --dur: 1s; position: relative; width: 12em; height: 12em; font-size: 14px; }
+.wheel, .hamster, .hamster div, .spoke { position: absolute; }
+.wheel, .spoke { border-radius: 50%; top: 0; left: 0; width: 100%; height: 100%; }
+.wheel { background: radial-gradient(100% 100% at center,hsla(0,0%,60%,0) 47.8%,hsl(0,0%,60%) 48%); z-index: 2; }
+.hamster { animation: hamster var(--dur) ease-in-out infinite; top: 50%; left: calc(50% - 3.5em); width: 7em; height: 3.75em; transform: rotate(4deg) translate(-0.8em,1.85em); transform-origin: 50% 0; z-index: 1; }
+.hamster__head { animation: hamsterHead var(--dur) ease-in-out infinite; background: hsl(30,90%,55%); border-radius: 70% 30% 0 100% / 40% 25% 25% 60%; box-shadow: 0 -0.25em 0 hsl(30,90%,80%) inset, 0.75em -1.55em 0 hsl(30,90%,90%) inset; top: 0; left: -2em; width: 2.75em; height: 2.5em; transform-origin: 100% 50%; }
+.hamster__ear { animation: hamsterEar var(--dur) ease-in-out infinite; background: hsl(0,90%,85%); border-radius: 50%; box-shadow: -0.25em 0 hsl(30,90%,55%) inset; top: -0.25em; right: -0.25em; width: 0.75em; height: 0.75em; transform-origin: 50% 75%; }
+.hamster__eye { animation: hamsterEye var(--dur) linear infinite; background-color: hsl(0,0%,0%); border-radius: 50%; top: 0.375em; left: 1.25em; width: 0.5em; height: 0.5em; }
+.hamster__nose { background: hsl(0,90%,75%); border-radius: 35% 65% 85% 15% / 70% 50% 50% 30%; top: 0.75em; left: 0; width: 0.2em; height: 0.25em; }
+.hamster__body { animation: hamsterBody var(--dur) ease-in-out infinite; background: hsl(30,90%,90%); border-radius: 50% 30% 50% 30% / 15% 60% 40% 40%; box-shadow: 0.1em 0.75em 0 hsl(30,90%,55%) inset, 0.15em -0.5em 0 hsl(30,90%,80%) inset; top: 0.25em; left: 2em; width: 4.5em; height: 3em; transform-origin: 17% 50%; transform-style: preserve-3d; }
+.hamster__limb--fr, .hamster__limb--fl { clip-path: polygon(0 0,100% 0,70% 80%,60% 100%,0% 100%,40% 80%); top: 2em; left: 0.5em; width: 1em; height: 1.5em; transform-origin: 50% 0; }
+.hamster__limb--fr { animation: hamsterFRLimb var(--dur) linear infinite; background: linear-gradient(hsl(30,90%,80%) 80%,hsl(0,90%,75%) 80%); transform: rotate(15deg) translateZ(-1px); }
+.hamster__limb--fl { animation: hamsterFLLimb var(--dur) linear infinite; background: linear-gradient(hsl(30,90%,90%) 80%,hsl(0,90%,85%) 80%); transform: rotate(15deg); }
+.hamster__limb--br, .hamster__limb--bl { border-radius: 0.75em 0.75em 0 0; clip-path: polygon(0 0,100% 0,100% 30%,70% 90%,70% 100%,30% 100%,40% 90%,0% 30%); top: 1em; left: 2.8em; width: 1.5em; height: 2.5em; transform-origin: 50% 30%; }
+.hamster__limb--br { animation: hamsterBRLimb var(--dur) linear infinite; background: linear-gradient(hsl(30,90%,80%) 90%,hsl(0,90%,75%) 90%); transform: rotate(-25deg) translateZ(-1px); }
+.hamster__limb--bl { animation: hamsterBLLimb var(--dur) linear infinite; background: linear-gradient(hsl(30,90%,90%) 90%,hsl(0,90%,85%) 90%); transform: rotate(-25deg); }
+.hamster__tail { animation: hamsterTail var(--dur) linear infinite; background: hsl(0,90%,85%); border-radius: 0.25em 50% 50% 0.25em; box-shadow: 0 -0.2em 0 hsl(0,90%,75%) inset; top: 1.5em; right: -0.5em; width: 1em; height: 0.5em; transform: rotate(30deg) translateZ(-1px); transform-origin: 0.25em 0.25em; }
+.spoke { animation: spoke var(--dur) linear infinite; background: radial-gradient(100% 100% at center,hsl(0,0%,60%) 4.8%,hsla(0,0%,60%,0) 5%), linear-gradient(hsla(0,0%,55%,0) 46.9%,hsl(0,0%,65%) 47% 52.9%,hsla(0,0%,65%,0) 53%) 50% 50% / 99% 99% no-repeat; }
+@keyframes hamster { from, to { transform: rotate(4deg) translate(-0.8em,1.85em); } 50% { transform: rotate(0) translate(-0.8em,1.85em); } }
+@keyframes hamsterHead { from, 25%, 50%, 75%, to { transform: rotate(0); } 12.5%, 37.5%, 62.5%, 87.5% { transform: rotate(8deg); } }
+@keyframes hamsterEye { from, 90%, to { transform: scaleY(1); } 95% { transform: scaleY(0); } }
+@keyframes hamsterEar { from, 25%, 50%, 75%, to { transform: rotate(0); } 12.5%, 37.5%, 62.5%, 87.5% { transform: rotate(12deg); } }
+@keyframes hamsterBody { from, 25%, 50%, 75%, to { transform: rotate(0); } 12.5%, 37.5%, 62.5%, 87.5% { transform: rotate(-2deg); } }
+@keyframes hamsterFRLimb { from, 25%, 50%, 75%, to { transform: rotate(50deg) translateZ(-1px); } 12.5%, 37.5%, 62.5%, 87.5% { transform: rotate(-30deg) translateZ(-1px); } }
+@keyframes hamsterFLLimb { from, 25%, 50%, 75%, to { transform: rotate(-30deg); } 12.5%, 37.5%, 62.5%, 87.5% { transform: rotate(50deg); } }
+@keyframes hamsterBRLimb { from, 25%, 50%, 75%, to { transform: rotate(-60deg) translateZ(-1px); } 12.5%, 37.5%, 62.5%, 87.5% { transform: rotate(20deg) translateZ(-1px); } }
+@keyframes hamsterBLLimb { from, 25%, 50%, 75%, to { transform: rotate(20deg); } 12.5%, 37.5%, 62.5%, 87.5% { transform: rotate(-60deg); } }
+@keyframes hamsterTail { from, 25%, 50%, 75%, to { transform: rotate(30deg) translateZ(-1px); } 12.5%, 37.5%, 62.5%, 87.5% { transform: rotate(10deg) translateZ(-1px); } }
+@keyframes spoke { from { transform: rotate(0); } to { transform: rotate(-1turn); } }
+
+/* =========================================================
+    WALLPAPER AURORA
+========================================================= */
+.pf-wallpaper-slide { padding: 0 !important; }
+.wallpaper-container {
+  position: absolute; inset: 0;      /* fixed di layar monitor */
+  z-index: 1;                        /* di belakang slide */
+  opacity: 0;                        /* muncul setelah loading */
+  transform: scale(1.08);            /* sedikit zoom agar rapih ke pinggir layar */
+  will-change: opacity;
+  pointer-events: none;
+  transition: opacity .5s ease;
+}
+.wallpaper-container .auror_bg {
+    position: absolute; left: -50%; top: -50%; width: 200%; height: 200%;
+    animation: northern 10s linear infinite alternate;
+    background: linear-gradient(rgba(102, 255, 153, 0.2) 10%, rgb(55, 0, 55) 15%, black 100%);
+}
+.wallpaper-container .aur_cont { margin: -65px auto 0; display: table; height: auto; }
+.wallpaper-container .aur {
+    transform: skew(-0.06turn, 18deg); display: block; width: 0; min-height: 200px;
+    float: left; margin-left: 40px; border-radius: 5% 52% 30px 20px; opacity: 0.6;
+}
+/* Manual generation of SASS loop for auroras */
+.wallpaper-container .aur_1 { box-shadow: rgb(75, 123, 221) 0px 0px 100px 20px; margin-top: 50px; animation: topup 8s infinite linear; }
+.wallpaper-container .aur_2 { box-shadow: rgb(75, 210, 180) 0px 0px 100px 20px; margin-top: 20px; animation: topup 10s infinite linear; }
+.wallpaper-container .aur_3 { box-shadow: rgb(75, 150, 250) 0px 0px 100px 20px; margin-top: 70px; animation: topup 9s infinite linear; }
+/* ... (ulangi sampai aur_24 dengan nilai random) ... */
+.wallpaper-container .aur_24 { box-shadow: rgb(75, 188, 140) 0px 0px 100px 20px; margin-top: 45px; animation: topup 11s infinite linear; }
+
+.wallpaper-container .pinetree {
+    background: black; width: 5px; height: 20px; position: absolute;
+    bottom: 70px; z-index: 2; box-shadow: 2px 0px 20px grey; left: 20%;
+}
+.wallpaper-container .pinetree:after { position: absolute; top: -15px; left: -18px; border-left: 20px solid transparent; border-right: 20px solid transparent; border-bottom: 20px solid black; content: ""; }
+.wallpaper-container .pinetree:before { position: absolute; top: -23px; left: -12px; border-left: 14px solid transparent; border-right: 14px solid transparent; border-bottom: 14px solid black; content: ""; }
+.wallpaper-container .hill {
+    width: 120%; margin-left: -10%; height: 215px; margin-bottom: -130px;
+    box-shadow: 3px 0px 50px grey; position: absolute;
+    background: linear-gradient(rgb(10, 0, 10) 0%, black 100%); bottom: 0; left: 0; border-radius: 50%;
+}
+.wallpaper-container .wave {
+    width: 150%; height: 150%; background: white;
+    display: block; border-radius: 47%; opacity: 0.05;
+    box-shadow: white 0 0 30px 10px; position: absolute;
+    left: -25%; top: 40%;
+}
+.wallpaper-container .wave.wave_1 { animation: drift 9000ms infinite linear; }
+.wallpaper-container .wave.wave_2 { animation: drift 15000ms infinite linear; border-radius: 46%; }
+.wallpaper-container .wave.wave_3 { animation: drift 7000ms infinite linear; opacity: 0.03; }
+.wallpaper-container .wave.wave_4 { animation: drift 7000ms infinite linear; opacity: 0.04; }
+.wallpaper-container .star {
+    position: absolute; top: 0; left: 0; width: 1px; height: 1px;
+    background: transparent;
+    box-shadow: 79vw 6vh 0 0 rgba(255,255,255,.9), 11vw 33vh 0 0 rgba(255,255,255,.9), /* ...tambahkan bintang lain secara acak */ 55vw 45vh 0 0 rgba(255,255,255,.9);
+}
+@keyframes drift { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes topup { 0%, 100% { transform: translateY(30px); } 50% { transform: translateY(100px); } }
+@keyframes northern { 0% { transform: translate(5%, -2%); } 25% { transform: translate(10%, 7%); } 40% { transform: rotate(-10deg); } 60% { transform: translate(7%, -2%); } 85% { transform: translate(6%, 3%) rotate(12deg); } 100% { transform: none; } }
+
+
+/* 3. Menerapkan Animasi saat section terlihat (MASUK) */
+/* ==== ENTER state (kompatibel dgn class lama is-animating) ==== */
+.portfolio-section.is-entering,
+.portfolio-section.is-animating{ animation: dropIn 0.8s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+.portfolio-section.is-entering .pf-base,
+.portfolio-section.is-animating .pf-base{ animation: dropIn 0.8s cubic-bezier(0.34,1.56,0.64,1) .2s forwards; }
+.portfolio-section.is-entering .pf-stand,
+.portfolio-section.is-animating .pf-stand{ animation: dropIn 0.8s cubic-bezier(0.34,1.56,0.64,1) .4s forwards; }
+.portfolio-section.is-entering .pf-frame,
+.portfolio-section.is-animating .pf-frame{ animation: dropIn 0.8s cubic-bezier(0.34,1.56,0.64,1) .6s forwards; }
+/* light menyala (blink lalu glow) */
+.portfolio-section.is-entering .light{ animation: lightBlinkAndGlow 3s 1.9s forwards; }
+/* ENTER (tambahan untuk title & link) */
+.portfolio-section.is-entering .pf-title{ animation: fadeIn 1s 4.9s forwards; }
+.portfolio-section.is-entering .pf-pub-link{ animation: fadeIn .8s 4.9s forwards; }
+
+/* ==== LEAVE/REVERSE state ==== */
+@keyframes riseOut {
+  0%   { transform: translateY(0);    opacity: 1; }
+  100% { transform: translateY(-100vh); opacity: 0; }
+}
+/* monitor, stand, base naik ke atas lagi */
+.portfolio-section.is-leaving .pf-frame{ animation: riseOut .7s ease-in forwards; }
+.portfolio-section.is-leaving .pf-stand{ animation: riseOut .7s ease-in .1s forwards; }
+.portfolio-section.is-leaving .pf-base { animation: riseOut .7s ease-in .2s forwards; }
+/* tombol ikut terbang & fade */
+.portfolio-section.is-leaving .pf-nav .pf-btn{
+  animation: riseOut .5s ease-in forwards;
+}
+/* light: kedap-kedip sebentar lalu mati */
+@keyframes lightBlinkOff{
+  0%,20%,40%,60%{ opacity:0; }
+  10%,30%,50%{ opacity:.85; }
+  70%{ opacity:.5; }
+  85%{ opacity:.18; }
+  100%{ opacity:0; }
+}
+.portfolio-section.is-leaving .light{ animation: lightBlinkOff 1.4s forwards; }
+
+/* state awal komponen saat belum masuk (agar tidak ghosting) */
+.portfolio-section:not(.is-entering) .pf-frame,
+.portfolio-section:not(.is-entering) .pf-stand,
+.portfolio-section:not(.is-entering) .pf-base{
+  will-change: transform, opacity;
+}

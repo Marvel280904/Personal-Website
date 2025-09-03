@@ -1,0 +1,240 @@
+/* ====== ABOUT (menyatu dengan background Home) ====== */
+.section{ padding-block: clamp(64px, 8vw, 120px); }
+
+.about-section{
+  position: relative;
+  /* beri ruang ekstra bawah supaya background terlihat sampai bawah */
+  padding-bottom: clamp(96px, 12vw, 180px);
+}
+
+/* Blob cahaya lembut di area about (pakai palet sama dgn Home) */
+.about-section::before{
+  content:"";
+  position: fixed;                 /* <— tadinya absolute */
+  left: 50%;
+  top: 40vh;                       /* posisi blob kira-kira di area About */
+  transform: translateX(-50%);     /* center horizontal */
+  width: 160vw;                    /* super lebar agar menyatu */
+  height: 160vh;                   /* super tinggi agar tidak ada edge */
+  z-index: -1;
+  pointer-events: none;
+
+  /* palet glow yang sama dengan Home */
+  background:
+    radial-gradient(60vw 50vw at 70% 30%, rgba(96,165,250,.22), transparent 60%),
+    radial-gradient(65vw 55vw at 20% 80%, rgba(139,92,246,.18), transparent 60%);
+
+  filter: saturate(115%) blur(24px);
+  opacity: .85;
+  /* penting: JANGAN mask agar tidak ada pinggiran tegas */
+  -webkit-mask: none;
+          mask: none;
+}
+
+/* Layout */
+.about-grid{
+  display:grid;
+  grid-template-columns: .9fr 1.3fr;
+  align-items:center;
+  gap: clamp(24px, 5vw, 48px);
+}
+@media (max-width: 960px){
+  .about-grid{ grid-template-columns: 1fr; }
+}
+
+/* Foto */
+.about-photo{
+  width: min(420px, 92vw);
+  aspect-ratio: 1 / 1;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 18px 50px rgba(0,0,0,.35);
+  margin-top: 70px;
+}
+.about-photo img{
+  width:100%; height:100%; object-fit:cover; display:block;
+}
+
+/* === Border-img: hidden → show on hover + multicolor glow === */
+/* Sembunyikan ring (pseudo-elements) secara default */
+.about-section .border-img::before,
+.about-section .border-img::after{
+  opacity: 0 !important;                 /* jangan tampil dulu */
+  visibility: hidden;                     /* benar2 hidden agar tak “bleed” */
+  transition: opacity .35s ease, filter .35s ease, visibility .35s ease;
+}
+
+/* Hilangkan shadow default, nanti munculkan saat hover */
+.about-section .border-img{
+  box-shadow: none;                       /* override shadow bawaan */
+  transition: box-shadow .4s ease, transform .35s ease;
+  will-change: box-shadow, filter;        /* lebih halus */
+}
+
+/* Saat hover: ring muncul + glow warna-warni di luar bingkai */
+.about-section .border-img:hover::before,
+.about-section .border-img:hover::after{
+  opacity: 1 !important;
+  visibility: visible;
+  filter: blur(12px) saturate(150%) brightness(1.1);
+}
+
+/* Box-shadow warna mengikuti palet ring (cyan, gold, purple, blue, green) */
+.about-section .border-img:hover{
+  box-shadow:
+    0 0 10px 2px rgba(79,207,112,.35),     /* green */
+    0 0 16px 4px rgba(250,214,72,.35),     /* gold */
+    0 0 24px 6px rgba(167,103,229,.35),    /* purple */
+    0 0 36px 10px rgba(18,188,254,.35),    /* cyan/blue */
+    0 0 60px 14px rgba(59,130,246,.25);    /* blue soft */
+}
+
+/* Teks */
+.about-title{
+  font-size: clamp(28px, 4vw, 42px);
+  line-height:1.15; margin: 0 0 10px;
+  font-weight: 800; color: #fff;
+}
+.about-text{
+  color: var(--muted);
+  font-size: clamp(14px, 1.8vw, 16px);
+  line-height: 1.8;
+  max-width: 60ch;
+}
+
+/* Opsional: reveal dari bawah agar beda dari hero */
+.reveal{ opacity:0; transform:translateY(16px); animation: revealUp .8s ease forwards; }
+.reveal.delay-1{ animation-delay:.1s }
+.reveal.delay-2{ animation-delay:.25s }
+@keyframes revealUp{ to{ opacity:1; transform:none } }
+
+
+.about-copy{
+  margin-top:60px;
+}
+
+/* bagian skill */ 
+/* ======= Social card (row) ======= */
+.social-row{
+  max-width: fit-content;
+  border-radius: 15px;
+  display: block;
+  padding: 1rem;
+  backdrop-filter: blur(15px);
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.192),
+              inset 0 0 5px rgba(255, 255, 255, 0.274),
+              0 5px 5px rgba(0, 0, 0, 0.164);
+  transition: 0.5s;
+}
+.social-row:hover{
+  background: rgba(173, 173, 173, 0.05);
+}
+
+/* UL jadi ROW (perubahan utama) */
+.social-list{
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;                 /* <-- ROW */
+  gap: 1rem 1.25rem;
+  align-items: center;
+  flex-wrap: wrap;               /* biar rapi di layar kecil */
+}
+
+.social-item{
+  cursor: pointer;
+  position: relative;            /* anchor untuk tooltip */
+}
+
+/* ikon gambar: ganti .svg -> .ico, properti dan animasi tetap */
+.ico{
+  transition: all 0.3s;
+  padding: 1rem;
+  height: 60px;
+  width: 60px;
+  border-radius: 100%;
+  display: block;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.3),
+              inset 0 0 5px rgba(255, 255, 255, 0.5),
+              0 5px 5px rgba(0, 0, 0, 0.164);
+  object-fit: contain;           /* ikon dari file gambar */
+  background: transparent;
+}
+
+/* tooltip: rename .text -> .social-text (animasi sama) */
+.social-text{
+  opacity: 0;
+  border-radius: 5px;
+  padding: 5px;
+  transition: all 0.3s;
+  color: rgb(244, 239, 229);
+  background-color: rgba(255, 255, 255, 0.3);
+  position: absolute;
+  z-index: 5;
+  left: 0; top: 5;
+  transform: translate(0,0);
+  box-shadow: -5px 0 1px rgba(153, 153, 153, 0.2),
+              -10px 0 1px rgba(153, 153, 153, 0.2),
+              inset 0 0 20px rgba(255, 255, 255, 0.3),
+              inset 0 0 5px rgba(255, 255, 255, 0.5),
+              0 5px 5px rgba(0, 0, 0, 0.082);
+}
+
+/* tiga span blur (rename dari .iso-pro span) */
+.social-item > span{
+  opacity: 0;
+  position: absolute;
+  height: 60px; width: 60px;
+  border-radius: 50%;
+  transition: all 0.3s;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.3),
+              inset 0 0 5px rgba(255, 255, 255, 0.5),
+              0 5px 5px rgba(0, 0, 0, 0.164);
+}
+
+/* HOVER — SALIN PERSIS BEHAVIOR LAMA (hanya ganti selector) */
+.social-item:hover a > .ico{
+  transform: translate(15px, -15px);
+  border-radius: 100%;
+}
+.social-item:hover .ico{
+  transform: translate(5px, -5px);
+}
+.social-item:hover .social-text{
+  opacity: 1;
+  transform: translate(25px, -2px) skew(-5deg);
+}
+.social-item:hover > span{ opacity: 1; }
+.social-item:hover > span:nth-child(1){ opacity: .2; }
+.social-item:hover > span:nth-child(2){ opacity: .4; transform: translate(5px,-5px); }
+.social-item:hover > span:nth-child(3){ opacity: .6; transform: translate(10px,-10px); }
+
+
+/* Matikan animasi .reveal lama khusus di About agar tak bentrok */
+.about-section .about-photo.reveal,
+.about-section .about-copy.reveal,
+.about-section .social-row.reveal{
+  animation: none !important;
+}
+
+/* State & transisi default */
+.about-section .about-photo,
+.about-section .about-copy,
+.about-section .social-row{
+  transition:
+    transform 900ms cubic-bezier(.22,1,.36,1),
+    opacity 900ms ease;
+  will-change: transform, opacity;
+}
+
+/* Sembunyikan saat BELUM in-view (tanpa ubah HTML, pakai class runtime) */
+.about-section .about-photo:not(.inview){ opacity:0; transform: translateX(-36px); }
+.about-section .about-copy:not(.inview) { opacity:0; transform: translateX( 36px); }
+.about-section .social-row:not(.inview){ opacity:0; transform: translateY( 36px); }
+
+/* Saat masuk viewport (class ditambah via JS), semuanya tampil */
+.about-section .about-photo.inview,
+.about-section .about-copy.inview,
+.about-section .social-row.inview{
+  opacity:1; transform:none;
+}
